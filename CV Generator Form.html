@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Generator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+        .container {
+            max-width: 100%;
+            margin: 50px auto;
+            background: rgb(216, 245, 252);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .cv-container {
+            position: relative;
+            display: flex !important;
+            width: 90%;
+            justify-content: space-between; 
+            align-items: flex-start;
+            gap: 30px;
+            margin-top: 50px;
+            margin-left: 20px;
+            padding-top: 50px;
+        }
+        
+        .left-section {
+            flex: 2; 
+            min-width: 70%;
+            padding-right: 20px;
+            margin-bottom: 10px;
+            margin-left: 20px;
+        }
+        .right-section {   
+            flex: 1; 
+            min-width: 20%;
+            background: #96b3cf;
+            padding: 15px;
+            padding-left: 30px;
+            margin-top: 200px;
+            border-radius: 10px;
+            border-width: 20%;
+            border-bottom-color: #0d6efd;
+            border-left-color: #0d6efd;
+        }     
+        .right-section p {
+            margin-bottom: 50px; 
+        }
+        .right-section h4 {
+            margin-bottom: 15px; 
+            margin-top: 15px;
+        }
+        .right-section ul {
+            margin-bottom: 50px;
+        }
+
+        .cv-header {
+            background-color: rgba(156, 151, 151, 0.699);
+            padding: 50px;
+            text-align: center;
+            border-radius: 5px;
+            border-bottom-right-radius: 50%;
+            border-top-left-radius: 20%;
+            margin-bottom: 40px;
+        }
+        .cv-header h2 {
+            color: #0d6efd;
+            margin: 0;
+            font-weight: bold;
+            font-size: 60px;
+        }
+        .section-title {
+            color: #0d6efd;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .contact-info {
+            position: absolute;
+            right: 10px; 
+            left: 850px;
+            text-align: center;
+            font-size: 18px;
+            background: rgba(75, 136, 216, 0.918);
+            color: #dfe9f3;
+            font-weight: bold;
+            padding-bottom: 50px;
+            padding-top: 20px;
+            padding-left: 20px;
+            padding-right: 10px;
+            margin-top: 5px;
+            margin-right: 10px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+            border-bottom-left-radius: 70%;         
+        }
+        ul {
+            list-style: none; 
+            padding: 0;
+        }
+        ul li::before {
+            content: "➯ "; 
+            margin-right: 8px;
+            font-weight: bold;
+        }
+
+        .contact-info p {
+            margin: 3px 0;
+        }
+
+        .experience-block, .education-block {
+            margin-bottom: 25px;
+            margin-top: 10px;
+        }
+        .exp-date, .edu-date {
+            color: gray;
+            font-weight: bold;
+            display: block;
+        }
+        .exp-title, .edu-title {
+            color: #0d6efd;
+            font-weight: bold;
+            margin-left: 70px;
+            margin-bottom: 10px;
+            padding-left: 30px;
+        }
+        .exp-company, .edu-institute {
+            color: #0d6efd;
+            margin-left: 70px;
+            padding-left: 30px;
+        }
+        .edu-description {
+            color: black;
+            margin-top: 5px;
+            padding-left: 30px;
+        }
+        .exp-description {
+            color: black;
+            margin-left: 70px;
+            margin-top: 5px;
+            padding-left: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="text-center text-primary">CV Generator</h2>
+        <form id="cvForm">
+            <div class="mb-3">
+                <label class="form-label">Full Name</label>
+                <input type="text" id="name" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Experience</label>
+                <div id="experienceContainer"></div>
+                <button type="button" class="btn btn-secondary mt-2" onclick="addExperience()">+ Add Experience</button>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Education</label>
+                <div id="educationContainer"></div>
+                <button type="button" class="btn btn-secondary mt-2" onclick="addEducation()">+ Add Education</button>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">About (Short Bio)</label>
+                <textarea id="about" class="form-control" required></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Contact Information</label>
+                <input type="text" id="phone" class="form-control mb-2" placeholder="Phone Number" required>
+                <input type="email" id="email" class="form-control mb-2" placeholder="Email" required>
+                <input type="text" id="linkedin" class="form-control" placeholder="LinkedIn Profile" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Skills</label>
+                <div id="skillsContainer"></div>
+                <button type="button" class="btn btn-secondary mt-2" onclick="addSkill()">+ Add Skill</button>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">CGPA</label>
+                <input type="text" id="cgpa" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Address</label>
+                <input type="text" id="address" class="form-control" required>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="generateCV()">Generate CV</button>
+        </form>
+    </div>
+
+    <div class="container cv-container" id="cvOutput" style="display: none;">
+        <div class="contact-info"> 
+            <h4 class="section-title">Contact</h4>
+                <ul id="cvContact"></ul>
+            <p id="cvPhone"></p>
+            <p id="cvEmail"></p>
+            <p id="cvLinkedIn"></p>
+        </div>
+
+        <div class="left-section">
+            <div class="cv-header">
+                <h2 id="cvName"></h2>
+            </div>
+            <h4 class="section-title">About</h4>
+            <p id="cvAbout"></p>
+            <h4 class="section-title">🎯 Experience</h4>
+            <div id="cvExperience"></div>
+            <h4 class="section-title">🎓 Education</h4>
+            <div id="cvEducation"></div>
+        </div>
+
+        <div class="right-section">
+            <h4 class="section-title">🛠️ Skills</h4>
+            <ul id="cvSkills" style="list-style: none; padding: 0;"></ul>
+            <h4 class="section-title">📜 CGPA</h4>
+            <p id="cvCgpa"></p>
+            <h4 class="section-title">📍 Address</h4>
+            <p id="cvAddress"></p>
+        </div>
+    </div>
+
+    <script>
+        function addExperience() {
+            let container = document.getElementById("experienceContainer");
+            let expDiv = document.createElement("div");
+            expDiv.classList.add("experience-entry", "mb-3");
+
+            expDiv.innerHTML = `
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>From:</label>
+                        <input type="date" class="form-control exp-from">
+                    </div>
+                    <div class="col-md-3">
+                        <label>To:</label>
+                        <input type="date" class="form-control exp-to">
+                    </div>
+                    <div class="col-md-6">
+                        <label>Job Title:</label>
+                        <input type="text" class="form-control exp-title">
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-6">
+                        <label>Company:</label>
+                        <input type="text" class="form-control exp-company">
+                    </div>
+                    <div class="col-md-6">
+                        <label>Description:</label>
+                        <textarea class="form-control exp-description"></textarea>
+                    </div>
+                </div>
+            `;
+            container.appendChild(expDiv);
+        }
+
+        function addEducation() {
+            let container = document.getElementById("educationContainer");
+            let eduDiv = document.createElement("div");
+            eduDiv.classList.add("education-entry", "mb-3");
+
+            eduDiv.innerHTML = `
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>From:</label>
+                        <input type="date" class="form-control edu-from">
+                    </div>
+                    <div class="col-md-3">
+                        <label>To:</label>
+                        <input type="date" class="form-control edu-to">
+                    </div>
+                    <div class="col-md-6">
+                        <label>Institute:</label>
+                        <input type="text" class="form-control edu-institute">
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <label>Degree:</label>
+                    <input type="text" class="form-control edu-title">
+                </div>
+            `;
+            container.appendChild(eduDiv);
+        }
+
+        function addSkill() {
+ 
+            let container = document.getElementById("skillsContainer");
+            let skillDiv = document.createElement("div");
+ 
+            skillDiv.classList.add("d-flex", "align-items-center", "mb-2");
+
+ 
+            skillDiv.innerHTML = `
+ 
+            <input type="text" class="form-control me-2 skill-name" placeholder="Skill">
+ 
+            <select class="form-select skill-rating">
+ 
+                <option value="1">⭐☆☆☆☆</option>
+ 
+                <option value="2">⭐⭐☆☆☆</option>
+ 
+                <option value="3">⭐⭐⭐☆☆</option>
+ 
+                <option value="4">⭐⭐⭐⭐☆</option>
+ 
+                <option value="5">⭐⭐⭐⭐⭐</option>
+ 
+                </select>
+ 
+                <button type="button" class="btn btn-danger ms-2" onclick="this.parentElement.remove()">X</button>
+ 
+                `;
+ 
+                container.appendChild(skillDiv);
+ 
+            }
+        
+            
+            function validateForm() {      
+                let isValid = true;
+                let requiredFields = document.querySelectorAll("#cvForm input[required], #cvForm textarea[required]");      
+                requiredFields.forEach(field => {
+    
+                    if (!field.value.trim()) {  
+                        field.classList.add("is-invalid"); 
+                        isValid = false;
+                    } else {
+                        field.classList.remove("is-invalid");
+                    }      
+                });      
+                if (!isValid) {
+                    alert("Please fill out all fields");
+                }
+                return isValid;
+            } 
+
+        function generateCV() {
+            if (!validateForm()) {
+            return; 
+            }
+
+            document.getElementById("cvOutput").style.display = "block";
+            document.getElementById("cvName").innerText = document.getElementById("name").value;
+            document.getElementById("cvAbout").innerText = document.getElementById("about").value;
+            document.getElementById("cvCgpa").innerText = document.getElementById("cgpa").value;
+            document.getElementById("cvAddress").innerText = document.getElementById("address").value;
+
+            document.getElementById("cvEducation").innerHTML = "";
+            
+
+            let educationEntries = document.querySelectorAll(".education-entry");   
+            educationEntries.forEach(entry => {
+                let fromDate = entry.querySelector(".edu-from").value;    
+                let toDate = entry.querySelector(".edu-to").value;    
+                let institute = entry.querySelector(".edu-institute").value;   
+                let degree = entry.querySelector(".edu-title").value;
+  
+                let educationHTML = `    
+                <div class="education-block">
+                    <span class="edu-date">${fromDate} - ${toDate}</span>
+                    <h5 class="edu-title">${degree}</h5>
+                    <p class="edu-institute">${institute}</p>
+                    </div>
+                    `;
+
+                    document.getElementById("cvEducation").innerHTML += educationHTML;    
+                });
+            
+            let phone = document.getElementById("phone").value.trim();
+            let email = document.getElementById("email").value.trim();
+            let linkedin = document.getElementById("linkedin").value.trim();
+            
+            document.querySelector(".contact-info").innerHTML = `
+            <p>📞   ${phone}</p>
+            <p>📧   ${email}</p>
+            <p>🔗   ${linkedin}</p>
+            `;
+
+            let skillsContainer = document.getElementById("cvSkills");
+
+            skillsContainer.innerHTML = ""; 
+            document.querySelectorAll(".skill-name").forEach((input, index) => {
+                let skillName = input.value.trim();
+                let rating = document.querySelectorAll(".skill-rating")[index].value;
+                if (skillName) {
+                    let stars = "⭐".repeat(rating) + "☆".repeat(5 - rating);
+                    let skillItem = `<li><strong>${skillName}</strong>: ${stars}</li>`;
+                    skillsContainer.innerHTML += skillItem;
+                }
+            });
+
+            
+            let experiences = document.querySelectorAll(".experience-entry");
+            let experienceHTML = "";
+    
+            experiences.forEach(exp => {
+                let from = exp.querySelector(".exp-from").value;
+                let to = exp.querySelector(".exp-to").value;
+                let title = exp.querySelector(".exp-title").value;
+                let company = exp.querySelector(".exp-company").value;
+                let description = exp.querySelector(".exp-description").value;
+
+                experienceHTML += `
+                    <div class="experience-block">
+                        <span class="exp-date">${from} - ${to}</span>
+                        <span class="exp-title">${title}</span>
+                        <span class="exp-company">${company}</span>
+                        <p class="exp-description">${description}</p>
+                    </div>`;
+            });
+            document.getElementById("cvExperience").innerHTML = experienceHTML;
+        }
+    </script>
+</body>
+</html>
